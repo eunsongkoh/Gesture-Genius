@@ -3,11 +3,14 @@ body {
     background-color: #f5f5f5;
     font-family: 'Ubuntu', sans-serif;
     margin: auto;
-    max-width: 50%;
+    text-align: center;
+}
+
+button {
+    margin: auto;
     text-align: center;
 }
 
 canvas {
     border: 5px solid #8e3434;
-    width: 35em;
 }

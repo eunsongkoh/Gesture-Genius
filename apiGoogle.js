@@ -20,7 +20,7 @@ async function performTextToSpeech(inputText) {
   try {
     // performs the api request
     // performs the text-to-speech request
-    const response = client.synthesizeSpeech(request).then((response) => {
+    client.synthesizeSpeech(request).then((response) => {
       // The response's audioContent is binary.
       const audioContent = response[0].audioContent;
       console.log(audioContent);
@@ -29,11 +29,12 @@ async function performTextToSpeech(inputText) {
       // write to file
       fs.writeFile("output.mp3", audioContent, "binary", (err) => {
         if (err) console.log("error: ", err);
-        else console.log("success");
+        else {console.log("success");
+        console.log("Audio content written");}
       });
+    }).catch((err) => {
+      console.log(err);
     });
-
-    console.log("Audio content written");
   } catch (error) {
     console.error("Error:", error);
   }

@@ -9,7 +9,8 @@
 
 <body>
     <h1>Gesture Genius: ASL AI Recognition</h1>
-    <button type="button" onclick="init()">Start</button>
+    <button type="button" onclick="start()" id="start">Start</button>
+    <button type="button" onclick="stop()" display="none" id="stop">Stop</button>
     <div id="webcam-container"></div>
     <div id="label-container"></div>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
@@ -21,8 +22,30 @@
 
         // the link to your model provided by Teachable Machine export panel
         const URL = "./model/";
+        const sideLength = 200;
+        let isStop = true;
+        let isInitiated = false;
 
         let model, webcam, labelContainer, maxPredictions;
+        const stop = () => {
+            isStop = true;
+            document.getElementById('stop').style.display = 'none';
+            document.getElementById('start').style.display = 'block';
+        }
+
+        async function start() {
+            isStop = false;
+            document.getElementById('start').style.display = 'none';
+            document.getElementById('stop').style.display = 'block';
+            if (!isInitiated) {
+                console.log(isInitiated)
+                await init();
+                isInitiated = true;
+            }
+
+            window.requestAnimationFrame(loop);
+        }
+
 
         // Load the image model and setup the webcam
         async function init() {
@@ -38,10 +61,9 @@
 
             // Convenience function to setup a webcam
             const flip = true; // whether to flip the webcam
-            webcam = new tmImage.Webcam(200, 200, flip); // width, height, flip
+            webcam = new tmImage.Webcam(sideLength, sideLength, flip); // width, height, flip
             await webcam.setup(); // request access to the webcam
             await webcam.play();
-            window.requestAnimationFrame(loop);
 
             // append elements to the DOM
             document.getElementById("webcam-container").appendChild(webcam.canvas);
@@ -54,8 +76,9 @@
         async function loop() {
             webcam.update();
             setTimeout(async () => {
-                await predict();
-            }, 100, "Alice");
+                if (!isStop)
+                    await predict();
+            }, 500);
             window.requestAnimationFrame(loop);
         }
 
@@ -67,13 +90,11 @@
 
             for (let i = 0; i < top5Predictions.length; i++) {
                 const classPrediction =
-                    top5Predictions[i].className + ": " + top5Predictions[i].probability.toFixed(2);
+                    top5Predictions[i].className.toUpperCase() + ": " + top5Predictions[i].probability.toFixed(2);
                 labelContainer.childNodes[i].innerHTML = classPrediction;
             }
         }
 
     </script>
-
 </body>
-
 </html>

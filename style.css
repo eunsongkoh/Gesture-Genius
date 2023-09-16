@@ -1,8 +1,17 @@
 body {
+    padding: 3em;
     background-color: #f5f5f5;
     font-family: 'Ubuntu', sans-serif;
+    margin: auto;
+    max-width: 50%;
+    text-align: center;
 }
 
-.AIvideo {
-    border: 5px solid #000;
+canvas {
+    border: 5px solid #8e3434;
+    width: 35em;
+}
+
+label-container {
+
 }

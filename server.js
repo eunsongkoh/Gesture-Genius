@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   res.send(`
-        <form action="/text-endpoint" method="post">
+        <form action="/get-Audio" method="post">
             <textarea name="text" rows="4" cols="50" placeholder="Enter your text here..."></textarea><br>
             <input type="submit" value="Convert to Audio">
         </form>
@@ -27,7 +27,7 @@ app.get("/", (req, res) => {
 
 app.use("/audio", express.static(audioDirectory));
 
-app.post("/text-endpoint", async (req, res) => {
+app.post("/get-Audio", async (req, res) => {
   const text = req.body.text;
   const request = {
     input: { text: text },

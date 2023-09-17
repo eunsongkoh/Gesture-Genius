@@ -56,6 +56,9 @@ canvas {
     border-radius: 50px;
     background-image:linear-gradient(to bottom right, rgba(255, 255, 255, 0.212), rgba(255, 255, 255, 0.093));
 }
+#tagline {
+    margin-top: -10vh;
+}
 
 .fade-in {
     opacity: 0;
@@ -75,4 +78,8 @@ canvas {
         opacity: 1;
         /* End with full opacity */
     }
+}
+
+#get-started-now {
+    margin-bottom: 2em;
 }

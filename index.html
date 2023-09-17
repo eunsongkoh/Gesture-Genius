@@ -13,24 +13,33 @@
 <body>
     <div class="fade-in">
         <div class="logo">
-            <img src="assets/logoshadow.png" alt="Logo" width="50%" height="auto"></img>
-            a hack the north 2023 project 
+            <div>
+                <img id="actual-logo" src="assets/logoshadow.png" alt="Logo" width="50%" height="auto"></img>
+                <p id="tagline">A Hack The North 2023 Project</p>
+                <button id="get-started-now" onclick="scrollToBottom()">
+                    Get Started Now!
+                </button>
+            </div>
         </div>
         <div class="desc">
             test
         </div>
     </div>
-    <button type="button" onclick="start()" id="start">Start</button>
-    <button type="button" onclick="stop()" style="display: none;" id="stop">Stop</button>
-    <div class="fade-in">
-    <div id="webcam-container">
-        <canvas id="placeholder-canvas" width="400" height="400"></canvas>
-        <div id="loading-container" style="display: none; z-index: 1;">
-            <p>LOADING MODEL...</p>
+    <div>
+        <button type="button" onclick="start()" id="start">Start</button>
+        <button type="button" onclick="stop()" style="display: none;" id="stop">Stop</button>
+        <div class="fade-in">
+            <div id="webcam-container">
+                <canvas id="placeholder-canvas" width="400" height="400"></canvas>
+                <div id="loading-container" style="display: none; z-index: 1;">
+                    <p>LOADING MODEL...</p>
+                </div>
+            </div>
         </div>
+        <div id="label-container" style="z-index: 1;"></div>
     </div>
-    </div>
-    <div id="label-container"></div>
+
+
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script
         src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
@@ -126,6 +135,15 @@
             }
         }
 
+        function scrollToBottom() {
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+            });
+        }
+
+
     </script>
 </body>
+
 </html>

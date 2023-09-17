@@ -54,6 +54,7 @@
         const sideLength = 400;
         let isStop = true;
         let isInitiated = false;
+        const AUDIO_CACHE = {};
 
         let model, webcam, labelContainer, maxPredictions;
         const stop = () => {
@@ -106,7 +107,7 @@
             // append elements to the DOM
             document.getElementById("webcam-container").appendChild(webcam.canvas);
             labelContainer = document.getElementById("label-container");
-            console.log(maxPredictions)
+
             for (let i = 0; i < 5; i++) { // and class labels
                 labelContainer.appendChild(document.createElement("div"));
             }
@@ -121,17 +122,23 @@
             window.requestAnimationFrame(loop);
         }
 
+        let soundCounter = 0;
+
         // run the webcam image through the image model
         async function predict() {
             const predictions = await model.predict(webcam.canvas);
             const sortedPredictions = predictions.sort((a, b) => b.probability - a.probability);
             const top5Predictions = sortedPredictions.slice(0, 5);
 
-            console.log(predictions);
-            console.log(top5Predictions)
-            const topPrediction = top5Predictions[0].className.toUpperCase() + ": " + top5Predictions[0].probability.toFixed(2);
+            const topPrediction = top5Predictions[0].className.toUpperCase();
+            const topPredictionDisplay = top5Predictions[0].className.toUpperCase() + ": " + top5Predictions[0].probability.toFixed(2);
+            
+            if (soundCounter % 10 == 0) {
+                callServerForAudio(topPrediction);
+            }
+            soundCounter++;
             // bold the top prediction and make the text big
-            labelContainer.childNodes[0].innerHTML = topPrediction;
+            labelContainer.childNodes[0].innerHTML = topPredictionDisplay;
             labelContainer.childNodes[0].style.fontWeight = "bold";
             labelContainer.childNodes[0].style.fontSize = "xx-large";
 
@@ -142,7 +149,6 @@
                 labelContainer.childNodes[i].style.fontWeight = "x-large";
             }
 
-            
         }
 
         function scrollToBottom() {
@@ -152,6 +158,50 @@
             });
         }
 
+        const callServerForAudio = (topPrediction) => {
+            const httpRequest = new XMLHttpRequest();
+            httpRequest.open("POST", "http://localhost:9999/get-Audio", true);
+            httpRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            httpRequest.send(JSON.stringify({
+                "text": topPrediction
+            }));
+            httpRequest.onreadystatechange = () => {
+                // const httpRequest = new XMLHttpRequest();
+                // httpRequest.open("POST", "http://www.example.org/some.file", true);
+                // httpRequest.send();
+                if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+                    const response = httpRequest.responseText;
+                    console.log(response);
+                    playSound(response);
+                    console.log("audio played")
+                }
+                console.log("ready state change!", httpRequest);
+                console.log(httpRequest.readyState, httpRequest.status);
+            };
+
+
+            // httpRequest.onreadystatechange = handler() {
+            //     if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+            //         const response = JSON.parse(httpRequest.responseText);
+            //         console.log(response);
+            //         playSound(response.audioFile);
+            //         console.log("audio played")
+            //     }
+            // }
+        }
+
+        // get audio link and play the audio
+
+        // play sound
+        const playSound = (audioFile) => {
+            if (AUDIO_CACHE[audioFile]) {
+                AUDIO_CACHE[audioFile].play();
+            } else {
+                const audio = new Audio(`./audio/${audioFile}`);
+                AUDIO_CACHE[audioFile] = audio;
+                audio.play();
+            }
+        }
 
     </script>
 </body>

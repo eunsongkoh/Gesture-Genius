@@ -37,7 +37,7 @@
                 </div>
             </div>
         </div>
-        <div id="label-container" style="z-index: 1;"></div>
+        <div id="label-container" style="z-index: 2;"></div>
     </div>
 
 
@@ -106,7 +106,8 @@
             // append elements to the DOM
             document.getElementById("webcam-container").appendChild(webcam.canvas);
             labelContainer = document.getElementById("label-container");
-            for (let i = 0; i < maxPredictions; i++) { // and class labels
+            console.log(maxPredictions)
+            for (let i = 0; i < 5; i++) { // and class labels
                 labelContainer.appendChild(document.createElement("div"));
             }
         }
@@ -126,14 +127,22 @@
             const sortedPredictions = predictions.sort((a, b) => b.probability - a.probability);
             const top5Predictions = sortedPredictions.slice(0, 5);
 
-            for (let i = 0; i < top5Predictions.length; i++) {
+            console.log(predictions);
+            console.log(top5Predictions)
+            const topPrediction = top5Predictions[0].className.toUpperCase() + ": " + top5Predictions[0].probability.toFixed(2);
+            // bold the top prediction and make the text big
+            labelContainer.childNodes[0].innerHTML = topPrediction;
+            labelContainer.childNodes[0].style.fontWeight = "bold";
+            labelContainer.childNodes[0].style.fontSize = "xx-large";
+
+            for (let i = 1; i < top5Predictions.length; i++) {
                 const classPrediction =
                     top5Predictions[i].className.toUpperCase() + ": " + top5Predictions[i].probability.toFixed(2);
                 labelContainer.childNodes[i].innerHTML = classPrediction;
-                let text = top5Predictions[0].className;
-                // performTextToSpeech(text);
-
+                labelContainer.childNodes[i].style.fontWeight = "x-large";
             }
+
+            
         }
 
         function scrollToBottom() {

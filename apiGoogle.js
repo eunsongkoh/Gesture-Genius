@@ -2,7 +2,7 @@ const textToSpeech = require("@google-cloud/text-to-speech");
 const fs = require("fs");
 const util = require("util");
 
-const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+const alphabet = "abcdefghijklmnopqrstuvwxyz";
 
 async function performTextToSpeech(inputText) {
   //creating client
@@ -20,21 +20,25 @@ async function performTextToSpeech(inputText) {
   try {
     // performs the api request
     // performs the text-to-speech request
-    client.synthesizeSpeech(request).then((response) => {
-      // The response's audioContent is binary.
-      const audioContent = response[0].audioContent;
-      console.log(audioContent);
-      
+    client
+      .synthesizeSpeech(request)
+      .then((response) => {
+        // The response's audioContent is binary.
+        const audioContent = response[0].audioContent;
+        console.log(audioContent);
 
-      // write to file
-      fs.writeFile("output.mp3", audioContent, "binary", (err) => {
-        if (err) console.log("error: ", err);
-        else {console.log("success");
-        console.log("Audio content written");}
+        // write to file
+        fs.writeFile("output.mp3", audioContent, "binary", (err) => {
+          if (err) console.log("error: ", err);
+          else {
+            console.log("success");
+            console.log("Audio content written");
+          }
+        });
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    }).catch((err) => {
-      console.log(err);
-    });
   } catch (error) {
     console.error("Error:", error);
   }
@@ -43,4 +47,3 @@ async function performTextToSpeech(inputText) {
 for (let i = 0; i < alphabet.length; i++) {
   performTextToSpeech(alphabet[i]);
 }
-

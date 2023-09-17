@@ -10,8 +10,10 @@
 <body>
     <h1>Gesture Genius: ASL AI Recognition</h1>
     <button type="button" onclick="start()" id="start">Start</button>
-    <button type="button" onclick="stop()" display="none" id="stop">Stop</button>
-    <div id="webcam-container"></div>
+    <button type="button" onclick="stop()" style="display: none;" id="stop">Stop</button>
+    <div id="webcam-container">
+        <canvas id="placeholder-canvas" width="400" height="400"></canvas>
+    </div>
     <div id="label-container"></div>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script
@@ -30,6 +32,9 @@
         let model, webcam, labelContainer, maxPredictions;
         const stop = () => {
             isStop = true;
+            if (webcam) {
+                webcam.stop();
+            }
             document.getElementById('stop').style.display = 'none';
             document.getElementById('start').style.display = 'block';
         }
@@ -44,6 +49,7 @@
                 isInitiated = true;
             }
 
+            await webcam.play();
             window.requestAnimationFrame(loop);
         }
 
@@ -63,8 +69,10 @@
             // Convenience function to setup a webcam
             const flip = true; // whether to flip the webcam
             webcam = new tmImage.Webcam(sideLength, sideLength, flip); // width, height, flip
-            await webcam.setup(); // request access to the webcam
-            await webcam.play();
+            await webcam.setup(); // request access to the webca
+
+            // hide placeholder canvas
+            document.getElementById("placeholder-canvas").style.display = "none";
 
             // append elements to the DOM
             document.getElementById("webcam-container").appendChild(webcam.canvas);

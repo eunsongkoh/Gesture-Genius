@@ -1,6 +1,6 @@
 .logo {
     display: flex;
-    justify-content: center; 
+    justify-content: center;
     align-items: center;
     height: auto;
     width: auto;
@@ -18,6 +18,18 @@ body {
 button {
     margin: auto;
     text-align: center;
+    background-color: #8e3434;
+    color: #e4e2dd;
+    border: 5px solid #e4e2dd;
+    padding: 10px 20px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+#start {
+    background-color: #348e34;
 }
 
 canvas {
@@ -25,16 +37,21 @@ canvas {
 }
 
 .fade-in {
-    opacity: 0; /* Start with transparency */
-    animation: fadeInAnimation 1s ease-in forwards; /* Apply the animation */
+    opacity: 0;
+    /* Start with transparency */
+    animation: fadeInAnimation 1s ease-in forwards;
+    /* Apply the animation */
 }
 
 /* Define the fade-in animation */
 @keyframes fadeInAnimation {
     from {
-        opacity: 0; /* Start with transparency */
+        opacity: 0;
+        /* Start with transparency */
     }
+
     to {
-        opacity: 1; /* End with full opacity */
+        opacity: 1;
+        /* End with full opacity */
     }
 }

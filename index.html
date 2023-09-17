@@ -43,14 +43,14 @@
                 webcam.stop();
             }
             document.getElementById('stop').style.display = 'none';
-            document.getElementById('start').style.display = 'block';
+            document.getElementById('start').style.display = 'inline-block';
         }
 
         async function start() {
             document.getElementById('loading-container').style.display = 'block';
             isStop = false;
             document.getElementById('start').style.display = 'none';
-            document.getElementById('stop').style.display = 'block';
+            document.getElementById('stop').style.display = 'inline-block';
             if (!isInitiated) {
                 console.log(isInitiated)
                 await init();

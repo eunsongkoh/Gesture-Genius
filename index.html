@@ -5,19 +5,42 @@
     <meta charset="utf-8">
     <title>Gesture Genius: ASL AI Recognition</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <h1>Gesture Genius: ASL AI Recognition</h1>
-    <button type="button" onclick="start()" id="start">Start</button>
-    <button type="button" onclick="stop()" style="display: none;" id="stop">Stop</button>
-    <div id="webcam-container">
-        <canvas id="placeholder-canvas" width="400" height="400"></canvas>
-        <div id="loading-container" style="display: none; z-index: 1;">
-            <p>Loading model...</p>
+    <div class="fade-in">
+        <div class="logo">
+            <div>
+                <img id="actual-logo" src="assets/logoshadow.png" alt="Logo" width="50%" height="auto"></img>
+                <p id="tagline">A Hack The North 2023 Project</p>
+                <button id="get-started-now" onclick="scrollToBottom()">
+                    Get Started Now!
+                </button>
+            </div>
+        </div>
+        <div class="desc">
+            <h2 style="font-style: italic;">Signing Made Simple, Speech Made Possible</h2>
+            <h3>An accessible approach to communication</h3>
         </div>
     </div>
-    <div id="label-container"></div>
+    <div>
+        <button type="button" onclick="start()" id="start">Start</button>
+        <button type="button" onclick="stop()" style="display: none;" id="stop">Stop</button>
+        <div class="fade-in">
+            <div id="webcam-container">
+                <canvas id="placeholder-canvas" width="400" height="400"></canvas>
+                <div id="loading-container" style="display: none; z-index: 1;">
+                    <p>LOADING MODEL...</p>
+                </div>
+            </div>
+        </div>
+        <div id="label-container" style="z-index: 2;"></div>
+    </div>
+
+
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script
         src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
@@ -39,14 +62,14 @@
                 webcam.stop();
             }
             document.getElementById('stop').style.display = 'none';
-            document.getElementById('start').style.display = 'block';
+            document.getElementById('start').style.display = 'inline-block';
         }
 
         async function start() {
             document.getElementById('loading-container').style.display = 'block';
             isStop = false;
             document.getElementById('start').style.display = 'none';
-            document.getElementById('stop').style.display = 'block';
+            document.getElementById('stop').style.display = 'inline-block';
             if (!isInitiated) {
                 console.log(isInitiated)
                 await init();
@@ -83,7 +106,8 @@
             // append elements to the DOM
             document.getElementById("webcam-container").appendChild(webcam.canvas);
             labelContainer = document.getElementById("label-container");
-            for (let i = 0; i < maxPredictions; i++) { // and class labels
+            console.log(maxPredictions)
+            for (let i = 0; i < 5; i++) { // and class labels
                 labelContainer.appendChild(document.createElement("div"));
             }
         }
@@ -103,14 +127,29 @@
             const sortedPredictions = predictions.sort((a, b) => b.probability - a.probability);
             const top5Predictions = sortedPredictions.slice(0, 5);
 
-            for (let i = 0; i < top5Predictions.length; i++) {
+            console.log(predictions);
+            console.log(top5Predictions)
+            const topPrediction = top5Predictions[0].className.toUpperCase() + ": " + top5Predictions[0].probability.toFixed(2);
+            // bold the top prediction and make the text big
+            labelContainer.childNodes[0].innerHTML = topPrediction;
+            labelContainer.childNodes[0].style.fontWeight = "bold";
+            labelContainer.childNodes[0].style.fontSize = "xx-large";
+
+            for (let i = 1; i < top5Predictions.length; i++) {
                 const classPrediction =
                     top5Predictions[i].className.toUpperCase() + ": " + top5Predictions[i].probability.toFixed(2);
                 labelContainer.childNodes[i].innerHTML = classPrediction;
-                let text = top5Predictions[0].className;
-                // performTextToSpeech(text);
-
+                labelContainer.childNodes[i].style.fontWeight = "x-large";
             }
+
+            
+        }
+
+        function scrollToBottom() {
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+            });
         }
     </script>
 
@@ -143,4 +182,5 @@
         synthesize();
     </script>
 </body>
+
 </html>

@@ -1,16 +1,104 @@
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    width: auto;
+    border: 5px solid #e4e2dd;
+    box-shadow: -30px 30px 20px rgba(30, 30, 30, 0.156);
+    border-radius: 50px;
+    background-image:linear-gradient(to bottom right, rgba(255, 255, 255, 0.212), rgba(255, 255, 255, 0.093));
+}
+
+.desc{
+    margin-top: 2em;
+    margin-bottom: 2em;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    flex-direction: column;
+    height: auto;
+    width: auto;
+    border: 5px solid #e4e2dd;
+    box-shadow: -30px 30px 20px rgba(30, 30, 30, 0.156);
+    border-radius: 50px;
+    background-image:linear-gradient(to bottom right, rgba(255, 255, 255, 0.212), rgba(255, 255, 255, 0.093));
+}
+
 body {
     padding: 3em;
-    background-color: #f5f5f5;
-    font-family: 'Ubuntu', sans-serif;
+    padding-top: 1em;
     margin: auto;
     text-align: center;
+    font-family: 'Oswald', sans-serif;
+    color: #e4e2dd;
+
+    background: linear-gradient(90deg, #737373, #cb997e,  #665866);
+    background-size: 600% 600%;
+    animation: gradient 20s ease infinite;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 button {
     margin: auto;
     text-align: center;
+    background-color: #8e3434;
+    color: #e4e2dd;
+    border: 5px solid #e4e2dd;
+    padding: 10px 20px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+#start {
+    background-color: #348e34;
 }
 
 canvas {
-    border: 5px solid #8e3434;
+    border: 5px solid #e4e2dd;
+    box-shadow: -30px 30px 20px rgba(30, 30, 30, 0.156);
+    border-radius: 50px;
+    background-image:linear-gradient(to bottom right, rgba(255, 255, 255, 0.212), rgba(255, 255, 255, 0.093));
+}
+#tagline {
+    margin-top: -10vh;
+}
+
+.fade-in {
+    opacity: 0;
+    /* Start with transparency */
+    animation: fadeInAnimation 1s ease-in forwards;
+    /* Apply the animation */
+}
+
+/* Define the fade-in animation */
+@keyframes fadeInAnimation {
+    from {
+        opacity: 0;
+        /* Start with transparency */
+    }
+
+    to {
+        opacity: 1;
+        /* End with full opacity */
+    }
+}
+
+#get-started-now {
+    margin-bottom: 2em;
 }

@@ -5,21 +5,30 @@
     <meta charset="utf-8">
     <title>Gesture Genius: ASL AI Recognition</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <div class="fade-in">
         <div class="logo">
-            <img src="assets/logo.png" alt="Logo" width="50%" height="auto"></img>
+            <img src="assets/logoshadow.png" alt="Logo" width="50%" height="auto"></img>
+            a hack the north 2023 project 
+        </div>
+        <div class="desc">
+            test
         </div>
     </div>
     <button type="button" onclick="start()" id="start">Start</button>
     <button type="button" onclick="stop()" style="display: none;" id="stop">Stop</button>
+    <div class="fade-in">
     <div id="webcam-container">
         <canvas id="placeholder-canvas" width="400" height="400"></canvas>
         <div id="loading-container" style="display: none; z-index: 1;">
-            <p>Loading model...</p>
+            <p>LOADING MODEL...</p>
         </div>
+    </div>
     </div>
     <div id="label-container"></div>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>

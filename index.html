@@ -13,6 +13,9 @@
     <button type="button" onclick="stop()" style="display: none;" id="stop">Stop</button>
     <div id="webcam-container">
         <canvas id="placeholder-canvas" width="400" height="400"></canvas>
+        <div id="loading-container" style="display: none; z-index: 1;">
+            <p>Loading model...</p>
+        </div>
     </div>
     <div id="label-container"></div>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
@@ -40,6 +43,7 @@
         }
 
         async function start() {
+            document.getElementById('loading-container').style.display = 'block';
             isStop = false;
             document.getElementById('start').style.display = 'none';
             document.getElementById('stop').style.display = 'block';
@@ -69,7 +73,9 @@
             // Convenience function to setup a webcam
             const flip = true; // whether to flip the webcam
             webcam = new tmImage.Webcam(sideLength, sideLength, flip); // width, height, flip
-            await webcam.setup(); // request access to the webca
+            await webcam.setup(); // request access to the webcam
+            // done loading
+            document.getElementById('loading-container').style.display = 'none';
 
             // hide placeholder canvas
             document.getElementById("placeholder-canvas").style.display = "none";

@@ -14,8 +14,13 @@
         </div>
     </div>
     <button type="button" onclick="start()" id="start">Start</button>
-    <button type="button" onclick="stop()" display="none" id="stop">Stop</button>
-    <div id="webcam-container"></div>
+    <button type="button" onclick="stop()" style="display: none;" id="stop">Stop</button>
+    <div id="webcam-container">
+        <canvas id="placeholder-canvas" width="400" height="400"></canvas>
+        <div id="loading-container" style="display: none; z-index: 1;">
+            <p>Loading model...</p>
+        </div>
+    </div>
     <div id="label-container"></div>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script
@@ -34,11 +39,15 @@
         let model, webcam, labelContainer, maxPredictions;
         const stop = () => {
             isStop = true;
+            if (webcam) {
+                webcam.stop();
+            }
             document.getElementById('stop').style.display = 'none';
             document.getElementById('start').style.display = 'block';
         }
 
         async function start() {
+            document.getElementById('loading-container').style.display = 'block';
             isStop = false;
             document.getElementById('start').style.display = 'none';
             document.getElementById('stop').style.display = 'block';
@@ -48,6 +57,7 @@
                 isInitiated = true;
             }
 
+            await webcam.play();
             window.requestAnimationFrame(loop);
         }
 
@@ -68,7 +78,11 @@
             const flip = true; // whether to flip the webcam
             webcam = new tmImage.Webcam(sideLength, sideLength, flip); // width, height, flip
             await webcam.setup(); // request access to the webcam
-            await webcam.play();
+            // done loading
+            document.getElementById('loading-container').style.display = 'none';
+
+            // hide placeholder canvas
+            document.getElementById("placeholder-canvas").style.display = "none";
 
             // append elements to the DOM
             document.getElementById("webcam-container").appendChild(webcam.canvas);

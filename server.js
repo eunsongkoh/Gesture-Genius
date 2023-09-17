@@ -45,7 +45,6 @@ app.get("/", (req, res) => {
 app.use("/audio", express.static(audioDirectory));
 
 app.post("/get-Audio", async (req, res) => {
-  console.log(req)
   const text = req.body.text;
   const request = {
     input: { text: text },
@@ -59,7 +58,7 @@ app.post("/get-Audio", async (req, res) => {
   };
 
   if (CACHED_AUDIO_FILES.has(`${text}.mp3`)) {
-    console.log("Audio file already exists in cache.");
+    console.log(`${text}.mp3 already exists in cache.`);
     res.send(`${text}.mp3`);
     return;
   }
